@@ -37,7 +37,17 @@ PromptEngineerMCP is a Model Context Protocol (MCP) server that refines and enha
 3. Receive an enhanced prompt, e.g.:
    ```json
    {
-     "refined_prompt": "Generate a React 19.1 component with TypeScript 5.4.3 using shadcn/ui for a web application built with Vite 5.2.6 that displays a chronological timeline of events from a user-provided text input describing a time traveler's journey. The timeline should render as a horizontal scrollable list of cards, each card representing an event with a title and short description. Implement Zustand 4.5.2 for state management to store the parsed events.  The component should handle empty input gracefully by displaying a placeholder message. Include error handling for invalid text input formats, displaying user-friendly messages. Persist the timeline data in PostgreSQL 17.4 using Node.js 21.7.1 and TailwindCSS 4.1.1 for styling. The time traveler's journey should be parsed into events based on date/time markers within the input text; assume a simple "YYYY-MM-DD" format.  Allow users to filter the timeline by year using a dropdown menu, dynamically updating the displayed events."
+     "refined_prompt": """Generate a React 19.1 component with TypeScript 5.4.3 using shadcn/ui
+     for a web application built with Vite 5.2.6 that displays a chronological timeline of events
+     from a user-provided text input describing a time traveler's journey. The timeline should
+     render as a horizontal scrollable list of cards, each card representing an event with a
+     title and short description. Implement Zustand 4.5.2 for state management to store the parsed
+     events. The component should handle empty input gracefully by displaying a placeholder message.
+     Include error handling for invalid text input formats, displaying user-friendly messages.
+     Persist the timeline data in PostgreSQL 17.4 using Node.js 21.7.1 and TailwindCSS 4.1.1 for
+     styling. The time traveler's journey should be parsed into events based on date/time markers
+     within the input text; assume a simple "YYYY-MM-DD" format. Allow users to filter the timeline
+     by year using a dropdown menu, dynamically updating the displayed events."""
    }
    ```
 
