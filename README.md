@@ -22,10 +22,6 @@ PromptEngineerMCP is a Model Context Protocol (MCP) server that refines and enha
    ```bash
    cd PromptEngineerMCP
    ```
-3. Install dependencies:
-   ```bash
-   pip install -r requirements.txt
-   ```
 4. Configure your local LLM (e.g., specify model path or API in `config.json`).
 
 ## Usage
@@ -36,7 +32,7 @@ PromptEngineerMCP is a Model Context Protocol (MCP) server that refines and enha
    ```
 2. Send a prompt via API or CLI:
    ```bash
-   curl -X POST http://localhost:5000/refine -d '{"prompt": "Write a story about time travel."}'
+   "Write a story about time travel."
    ```
 3. Receive an enhanced prompt, e.g.:
    ```json
