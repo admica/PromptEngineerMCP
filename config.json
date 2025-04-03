@@ -1,0 +1,20 @@
+{
+  "model_url": "http://172.17.0.1:1234/v1/chat/completions",
+  "model_name": "mistral",
+  "default_prompt_settings": {
+    "temperature": 0.4,
+    "max_tokens": 4096
+  },
+    "default_context": {
+    "techStack": "React 19.1, Node.js 21.7.1, TailwindCSS 4.1.1, TypeScript 5.4.3, Zustand 4.5.2, PostgreSQL 17.4, Vite 5.2.6, shadcn/ui",
+    "projectType": "web application"
+  },
+  "mcp_settings": {
+    "enrich_prompts": true,
+    "stdin_enabled": true
+  },
+  "logging": {
+    "enabled": true,
+    "log_file": "mcp-debug.log"
+  }
+}
