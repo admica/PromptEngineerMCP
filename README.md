@@ -24,6 +24,8 @@ PromptEngineerMCP is a Model Context Protocol (MCP) server that refines and enha
    ```
 4. Configure your local LLM (e.g., specify model path or API in `config.json`).
 
+5. Update the config.json to include your URL to reach the local LLM, and your tech stack.
+
 ## Usage
 
 1. Start the MCP server:
