@@ -37,7 +37,7 @@ PromptEngineerMCP is a Model Context Protocol (MCP) server that refines and enha
    "Write a story about time travel."
    ```
 3. Receive an enhanced prompt, e.g.:
-   ```json
+   ```python
    {
      "refined_prompt": "Generate a React 19.1 component with TypeScript 5.4.3 using shadcn/ui
      for a web application built with Vite 5.2.6 that displays a chronological timeline of events
