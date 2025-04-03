@@ -1,6 +1,7 @@
 #!/usr/bin/env python
 # File: models/local_llm.py
 import requests
+from utils import sanitize_string
 
 def run_model(prompt: str, config: dict, context: dict = None) -> str:
     url = config["model_url"]
@@ -11,10 +12,10 @@ def run_model(prompt: str, config: dict, context: dict = None) -> str:
     default_context = config.get("default_context", {})
     merged_context = {**default_context, **(context or {})}
 
-    # Format merged context as a string for the system prompt
+    # Sanitize context values
     context_str = ""
     if merged_context:
-        context_items = [f"{key}: {value}" for key, value in merged_context.items()]
+        context_items = [f"{key}: {sanitize_string(str(value))}" for key, value in merged_context.items()]
         context_str = "; ".join(context_items)
 
     # Build a detailed system prompt that uses the context
@@ -40,10 +41,12 @@ def run_model(prompt: str, config: dict, context: dict = None) -> str:
             {"role": "system", "content": system_prompt},
             {"role": "user", "content": prompt}
         ],
-        "temperature": settings.get("temperature", 0.7),
-        "max_tokens": settings.get("max_tokens", 1024)
+        "temperature": settings.get("temperature", 0.4),
+        "max_tokens": settings.get("max_tokens", 2048)
     }
 
     response = requests.post(url, json=body, headers=headers)
     response.raise_for_status()
-    return response.json()["choices"][0]["message"]["content"]
+    refined = response.json()["choices"][0]["message"]["content"]
+    # Sanitize refined prompt before returning it.
+    return sanitize_string(refined)

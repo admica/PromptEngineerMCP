@@ -6,6 +6,7 @@ import argparse
 import logging
 from config_loader import load_config
 from refiner import refine_prompt
+from utils import sanitize_dict
 
 # Global runtime context
 CURRENT_CONTEXT = {}
@@ -41,10 +42,10 @@ def handle_jsonrpc_request(request, config):
                 "id": request_id,
                 "error": {"code": -32602, "message": "Missing 'prompt' parameter."}
             }
-        # Use context override if provided; otherwise, use the current runtime context.
+        # Sanitize any provided context
         local_context = params.get("context")
-        if local_context is not None:
-            # Merge CURRENT_CONTEXT with provided context (provided fields override)
+        if local_context is not None and isinstance(local_context, dict):
+            local_context = sanitize_dict(local_context)
             merged_context = {**CURRENT_CONTEXT, **local_context}
         else:
             merged_context = CURRENT_CONTEXT
@@ -63,7 +64,6 @@ def handle_jsonrpc_request(request, config):
                 "error": {"code": -32000, "message": str(e)}
             }
     elif method == "setContext":
-        # Expecting a 'context' parameter containing the new context data.
         new_context = params.get("context")
         if not new_context or not isinstance(new_context, dict):
             return {
@@ -71,8 +71,8 @@ def handle_jsonrpc_request(request, config):
                 "id": request_id,
                 "error": {"code": -32602, "message": "Missing or invalid 'context' parameter."}
             }
-        # Replace the runtime context with the new one.
-        CURRENT_CONTEXT = new_context
+        # Sanitize and update runtime context
+        CURRENT_CONTEXT = sanitize_dict(new_context)
         logging.info("Context updated: %s", CURRENT_CONTEXT)
         return {
             "jsonrpc": "2.0",
@@ -80,7 +80,6 @@ def handle_jsonrpc_request(request, config):
             "result": {"context": CURRENT_CONTEXT}
         }
     elif method == "getContext":
-        # Return the current context.
         return {
             "jsonrpc": "2.0",
             "id": request_id,
@@ -101,6 +100,7 @@ def run_jsonrpc_mode(config):
             request = json.loads(line)
             logging.info("Received request: %s", request)
             response = handle_jsonrpc_request(request, config)
+            # json.dumps ensures that any output is correctly escaped.
             print(json.dumps(response))
             sys.stdout.flush()
         except json.JSONDecodeError:
@@ -113,7 +113,6 @@ def run_jsonrpc_mode(config):
             sys.stdout.flush()
 
 def run_interactive_mode(config):
-    # In interactive mode, simply prompt for a refinement. Context will be the runtime context.
     prompt = input("Enter your prompt: ").strip()
     if not prompt:
         print("No prompt provided.")
